@@ -11,7 +11,7 @@ public class OTPGenerator {
 	 public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
 
 	public static void main(String[] args) {
-		String oneTimePassword = generateOTP(5); //Call to the generateOTP method.
+		String oneTimePassword = generateOTP(); //Call to the generateOTP method.
 		System.out.println("Generated One Time Password: "+ oneTimePassword); //Displays the OTP.
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 	     Message message = Message.creator(
@@ -23,7 +23,8 @@ public class OTPGenerator {
 	     System.out.println(message.getSid());
 	}
 
-	public static String generateOTP(int length) {
+	public static String generateOTP() {
+		int length = 6;
 		Random random = new Random(); //Generates a random number greater than or equal to 0.0 and less than 1.0.
 		StringBuilder stringBuilder = new StringBuilder(); //Creates a string object to temporarily store the OTP.
 		
