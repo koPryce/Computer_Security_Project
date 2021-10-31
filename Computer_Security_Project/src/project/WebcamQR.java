@@ -97,7 +97,7 @@ public class WebcamQR extends JFrame  {
 			}
 
 			if (result != null) {
-				arr = result.getText().split("%");
+				arr =  Security.Decrypt(result.getText()).split("%");
 				trun = false;
 				webcam.close();
 			}
