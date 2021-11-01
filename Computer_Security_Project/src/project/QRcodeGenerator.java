@@ -46,7 +46,7 @@ public class QRcodeGenerator {
 			
 		//the BitMatrix class represents the 2D matrix of bits  
 		//MultiFormatWriter is a factory class that finds the appropriate Writer subclass for the BarcodeFormat requested and encodes the barcode with the supplied contents.  
-		BitMatrix matrix = new MultiFormatWriter().encode(new String(credentials.getBytes(charset), charset), BarcodeFormat.QR_CODE, WIDTH,HEIGHT);
+		BitMatrix matrix = new MultiFormatWriter().encode(new String(Security.Encrypt(credentials).getBytes(charset), charset), BarcodeFormat.QR_CODE, WIDTH,HEIGHT);
 		
 		MatrixToImageWriter.writeToPath(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path).toPath()); 
 		SendEmail.sendMail(recipient);
@@ -72,7 +72,7 @@ public class QRcodeGenerator {
 			{
 				BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(j.getSelectedFile().getAbsolutePath())))));  
 				Result rslt = new MultiFormatReader().decode(binaryBitmap);
-				arr = rslt.getText().split("%");
+				arr = Security.Decrypt(rslt.getText()).split("%");
 			}
 			return arr;  
 		}
@@ -98,7 +98,7 @@ public class QRcodeGenerator {
 	      if(bool){
 	         System.out.println("Directory created successfully");
 	      }else{
-	         System.out.println("Sorry couldn’t create specified directory");
+	         System.out.println("Sorry couldnâ€™t create specified directory");
 	      }
 	}
 }
