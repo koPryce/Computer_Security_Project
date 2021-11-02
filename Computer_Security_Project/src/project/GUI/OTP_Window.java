@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class OTP_Window extends JFrame{
 
@@ -123,6 +125,15 @@ public class OTP_Window extends JFrame{
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Success_Window sw = new Success_Window();
+				sw.frame.setVisible(true);
+				sw.frame.setLocationRelativeTo(null);
+				sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.dispose();
+			}
+		});
 		btnOk.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		passwordField = new JPasswordField();

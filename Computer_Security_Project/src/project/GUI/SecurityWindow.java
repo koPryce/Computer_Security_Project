@@ -12,6 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import project.OTP.OTPGenerator;
+
 import java.awt.Panel;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -122,10 +125,10 @@ public class SecurityWindow extends JFrame{
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Registration registration = new Registration();
-				registration.registrationFrame.setVisible(true);
-				registration.registrationFrame.setLocationRelativeTo(null);
-				registration.registrationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				QRCode_Window qr = new QRCode_Window();
+				qr.frame.setVisible(true);
+				qr.frame.setLocationRelativeTo(null);
+				qr.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.dispose();
 			}
 		});
@@ -133,11 +136,13 @@ public class SecurityWindow extends JFrame{
 		JButton btnLogIn = new JButton("One Time Password (OTP)");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login login = new Login();
-				login.loginFrame.setVisible(true);
-				login.loginFrame.pack();
-				login.loginFrame.setLocationRelativeTo(null);
-				login.loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				OTPGenerator otpGenerator = new OTPGenerator();
+				otpGenerator.sendOTP();
+				
+				OTP_Window otp = new OTP_Window();
+				otp.frame.setVisible(true);
+				otp.frame.setLocationRelativeTo(null);
+				otp.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.dispose();
 			}
 		});

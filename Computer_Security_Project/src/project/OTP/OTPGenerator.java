@@ -10,12 +10,12 @@ public class OTPGenerator {
 	 public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
 	 public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
 
-	public static void main(String[] args) {
+	public void sendOTP() {
 		String oneTimePassword = generateOTP(); //Call to the generateOTP method.
 		System.out.println("Generated One Time Password: "+ oneTimePassword); //Displays the OTP.
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 	     Message message = Message.creator(
-	    		 new com.twilio.type.PhoneNumber("+1876"),
+	    		 new com.twilio.type.PhoneNumber("+18763992226"),
 	             new com.twilio.type.PhoneNumber("+17408471870"),
 	             "This is your One Time Password:" + oneTimePassword)
 	         .create();
