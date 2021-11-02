@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import java.awt.Panel;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -29,8 +31,8 @@ public class Registration extends JFrame{
 	private static final long serialVersionUID = 1L;
 	public JFrame registrationFrame;
 	private JPasswordField passwordField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField firstNameTextField;
+	private JTextField emailtextField;
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JPasswordField passwordField_1;
@@ -133,14 +135,32 @@ public class Registration extends JFrame{
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		JButton btnRegister = new JButton("REGISTER");
-		btnRegister.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				SecurityWindow sw = new SecurityWindow();
-				sw.frame.setVisible(true);
-				sw.frame.setLocationRelativeTo(null);
-				sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				registrationFrame.dispose();
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Boolean emailFlag = false, passwordFlag = false;
+				String emailString = emailtextField.getText();
+				String [] splitEmail = emailString.split("@");
+				if(!splitEmail[1].equals("gmail.com")) {
+					JOptionPane.showMessageDialog(btnRegister, "The email entered cannot be used. Please use an email ending with 'gmail.com'.");
+				}else {
+					emailFlag = true;
+				}
+
+				String p1 = passwordField.getText(),p2 = passwordField_1.getText();
+				if(!p1.equals(p2)) {
+					JOptionPane.showMessageDialog(btnRegister, "Passwords do not match.");
+				}
+				else {
+					passwordFlag = true;
+				}
+				if(emailFlag == true && passwordFlag == true) {
+					SecurityWindow sw = new SecurityWindow();
+					sw.frame.setVisible(true);
+					sw.frame.setLocationRelativeTo(null);
+					sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					registrationFrame.dispose();
+				}
 			}
 		});
 		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -149,8 +169,8 @@ public class Registration extends JFrame{
 		JButton button_1 = new JButton("CANCEL");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField_1.setText(null);
-				textField_2.setText(null);
+				firstNameTextField.setText(null);
+				emailtextField.setText(null);
 				textField_3.setText(null);
 				textField_4.setText(null);
 				passwordField.setText(null);
@@ -166,9 +186,9 @@ public class Registration extends JFrame{
 		lblFirstName.setForeground(new Color(30, 25, 39));
 		lblFirstName.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_1.setColumns(10);
+		firstNameTextField = new JTextField();
+		firstNameTextField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		firstNameTextField.setColumns(10);
 		
 		JLabel lblLastName = new JLabel("Last Name:");
 		lblLastName.setForeground(new Color(30, 25, 39));
@@ -178,9 +198,9 @@ public class Registration extends JFrame{
 		lblEmailAddress.setForeground(new Color(30, 25, 39));
 		lblEmailAddress.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_2.setColumns(10);
+		emailtextField = new JTextField();
+		emailtextField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		emailtextField.setColumns(10);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number:");
 		lblPhoneNumber.setForeground(new Color(30, 25, 39));
@@ -229,11 +249,11 @@ public class Registration extends JFrame{
 							.addGroup(gl_panel.createSequentialGroup()
 								.addComponent(lblFirstName, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
 								.addGap(32)
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))
+								.addComponent(firstNameTextField, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))
 							.addGroup(gl_panel.createSequentialGroup()
 								.addComponent(lblEmailAddress, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
 								.addGap(4)
-								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))
+								.addComponent(emailtextField, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))
 							.addGroup(gl_panel.createSequentialGroup()
 								.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
 								.addGap(48)
@@ -260,13 +280,13 @@ public class Registration extends JFrame{
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblFirstName, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(firstNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addGap(43)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(1)
 									.addComponent(lblEmailAddress, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(emailtextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addGap(44)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
