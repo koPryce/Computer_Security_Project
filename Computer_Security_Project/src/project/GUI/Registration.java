@@ -28,7 +28,6 @@ public class Registration extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	public JFrame registrationFrame;
-	private JTextField textField;
 	private JPasswordField passwordField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -65,7 +64,7 @@ public class Registration extends JFrame{
 	 */
 	private void initialize() {
 		registrationFrame = new JFrame();
-		registrationFrame.setBounds(100, 100, 836, 681);
+		registrationFrame.setBounds(100, 100, 838, 480);
 		registrationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		registrationFrame.getContentPane().setLayout(null);
 		
@@ -126,16 +125,12 @@ public class Registration extends JFrame{
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(48, 48, 247));
-		panel.setBounds(0, 48, 822, 596);
+		panel.setBounds(0, 48, 822, 395);
 		registrationFrame.getContentPane().add(panel);
-		
-		JLabel label = new JLabel("Username:");
-		label.setForeground(new Color(30, 25, 39));
-		label.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JLabel label_1 = new JLabel("Password:");
 		label_1.setForeground(new Color(30, 25, 39));
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		label_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		JButton btnRegister = new JButton("REGISTER");
 		btnRegister.addMouseListener(new MouseAdapter() {
@@ -154,7 +149,6 @@ public class Registration extends JFrame{
 		JButton button_1 = new JButton("CANCEL");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText(null);
 				textField_1.setText(null);
 				textField_2.setText(null);
 				textField_3.setText(null);
@@ -165,16 +159,12 @@ public class Registration extends JFrame{
 		});
 		button_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField.setColumns(10);
-		
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JLabel lblFirstName = new JLabel("First Name:");
 		lblFirstName.setForeground(new Color(30, 25, 39));
-		lblFirstName.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblFirstName.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		textField_1 = new JTextField();
 		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -182,11 +172,11 @@ public class Registration extends JFrame{
 		
 		JLabel lblLastName = new JLabel("Last Name:");
 		lblLastName.setForeground(new Color(30, 25, 39));
-		lblLastName.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblLastName.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		JLabel lblEmailAddress = new JLabel("Email Address:");
 		lblEmailAddress.setForeground(new Color(30, 25, 39));
-		lblEmailAddress.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblEmailAddress.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		textField_2 = new JTextField();
 		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -226,81 +216,84 @@ public class Registration extends JFrame{
 		lblAlreadyRegisterClick.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
+			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(55)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblEmailAddress, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+					.addGap(306)
+					.addComponent(lblAlreadyRegisterClick, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
+					.addGap(404))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(19)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnRegister, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panel.createSequentialGroup()
 								.addComponent(lblFirstName, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-								.addComponent(label)
-								.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField, 213, 213, 213)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-										.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-										.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-										.addComponent(btnRegister, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE))
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addGap(33)
-											.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-												.addGroup(gl_panel.createSequentialGroup()
-													.addComponent(lblLastName, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
-													.addGap(4)
-													.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_panel.createSequentialGroup()
-													.addComponent(lblPhoneNumber)
-													.addPreferredGap(ComponentPlacement.RELATED)
-													.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_panel.createSequentialGroup()
-													.addComponent(lblRetypePassword)
-													.addGap(18)
-													.addComponent(passwordField_1))))
-										.addGroup(gl_panel.createSequentialGroup()
-											.addGap(69)
-											.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))))))
+								.addGap(32)
+								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panel.createSequentialGroup()
+								.addComponent(lblEmailAddress, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+								.addGap(4)
+								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panel.createSequentialGroup()
+								.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+								.addGap(48)
+								.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))))
+					.addGap(45)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(275)
-							.addComponent(lblAlreadyRegisterClick, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(35, Short.MAX_VALUE))
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblRetypePassword)
+								.addComponent(lblPhoneNumber)
+								.addComponent(lblLastName, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(textField_3)
+								.addComponent(passwordField_1)
+								.addComponent(textField_4, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)))
+						.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
+			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(40)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblFirstName, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblLastName, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addGap(44)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblEmailAddress, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblPhoneNumber, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addGap(51)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(45)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(passwordField_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblRetypePassword, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblFirstName, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(43)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(1)
+									.addComponent(lblEmailAddress, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(44)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(2)
+									.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(3)
+									.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblLastName, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(43)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblPhoneNumber, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+							.addGap(44)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblRetypePassword, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(passwordField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addGap(83)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnRegister, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 						.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
-					.addGap(29)
-					.addComponent(lblAlreadyRegisterClick, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
+					.addGap(19)
+					.addComponent(lblAlreadyRegisterClick, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+					.addGap(24))
 		);
 		panel.setLayout(gl_panel);
 	}
