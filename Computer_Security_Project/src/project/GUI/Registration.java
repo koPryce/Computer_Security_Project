@@ -34,7 +34,7 @@ public class Registration extends JFrame{
 	private JTextField firstNameTextField;
 	private JTextField emailtextField;
 	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField phoneNumbertextField;
 	private JPasswordField passwordField_1;
 
 	/**
@@ -46,6 +46,7 @@ public class Registration extends JFrame{
 				try {
 					Registration window = new Registration();
 					window.registrationFrame.setVisible(true);
+					window.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -136,6 +137,7 @@ public class Registration extends JFrame{
 		
 		JButton btnRegister = new JButton("REGISTER");
 		btnRegister.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
 				Boolean emailFlag = false, passwordFlag = false;
@@ -155,7 +157,7 @@ public class Registration extends JFrame{
 					passwordFlag = true;
 				}
 				if(emailFlag == true && passwordFlag == true) {
-					SecurityWindow sw = new SecurityWindow();
+					SecurityWindow sw = new SecurityWindow(emailtextField.getText());
 					sw.frame.setVisible(true);
 					sw.frame.setLocationRelativeTo(null);
 					sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -172,7 +174,7 @@ public class Registration extends JFrame{
 				firstNameTextField.setText(null);
 				emailtextField.setText(null);
 				textField_3.setText(null);
-				textField_4.setText(null);
+				phoneNumbertextField.setText(null);
 				passwordField.setText(null);
 				passwordField_1.setText(null);
 			}
@@ -210,9 +212,9 @@ public class Registration extends JFrame{
 		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textField_3.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_4.setColumns(10);
+		phoneNumbertextField = new JTextField();
+		phoneNumbertextField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		phoneNumbertextField.setColumns(10);
 		
 		JLabel lblRetypePassword = new JLabel("Retype Password:");
 		lblRetypePassword.setForeground(new Color(30, 25, 39));
@@ -269,7 +271,7 @@ public class Registration extends JFrame{
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(textField_3)
 								.addComponent(passwordField_1)
-								.addComponent(textField_4, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)))
+								.addComponent(phoneNumbertextField, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)))
 						.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
 		);
 		gl_panel.setVerticalGroup(
@@ -302,7 +304,7 @@ public class Registration extends JFrame{
 							.addGap(43)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblPhoneNumber, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+								.addComponent(phoneNumbertextField, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
 							.addGap(44)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblRetypePassword, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)

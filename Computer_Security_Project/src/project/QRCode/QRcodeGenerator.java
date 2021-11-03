@@ -11,8 +11,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 
-import project.QRCode.WebcamQR;
-import project.QRCode.SendEmail;
+//import project.QRCode.WebcamQR;
+//import project.QRCode.SendEmail;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.EncodeHintType;
@@ -29,7 +29,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 public class QRcodeGenerator {
 	static String PATH;	
-	public void generateQRcode(String credentials,String recipient)  
+	public static void generateQRcode(String credentials,String recipient)  
 	{  
 		MakeDirectory();
 		try {
@@ -74,7 +74,10 @@ public class QRcodeGenerator {
 			{
 				BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(j.getSelectedFile().getAbsolutePath())))));  
 				Result rslt = new MultiFormatReader().decode(binaryBitmap);
-				arr = Security.Decrypt(rslt.getText()).split("%"); //Recheck this
+				arr = Security.Decrypt(rslt.getText()).split("%");
+				for(String errorString: arr) {
+					System.out.println(errorString);
+				}
 			}
 			return arr;  
 		}

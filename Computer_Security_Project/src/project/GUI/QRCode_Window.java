@@ -12,6 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import project.QRCode.QRcodeGenerator;
+
 import java.awt.Panel;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -53,6 +56,7 @@ public class QRCode_Window extends JFrame{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		QRcodeGenerator qRcodeGenerator = new QRcodeGenerator();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 827, 459);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -122,10 +126,16 @@ public class QRCode_Window extends JFrame{
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Registration registration = new Registration();
-				registration.registrationFrame.setVisible(true);
-				registration.registrationFrame.setLocationRelativeTo(null);
-				registration.registrationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				String [] arrayStrings = qRcodeGenerator.readByCamera();
+				for(String qr:arrayStrings) {
+					System.out.println(qr);
+				}
+				//Validation
+				//Use sql to validate
+				Success_Window sw = new Success_Window();
+				sw.frame.setVisible(true);
+				sw.frame.setLocationRelativeTo(null);
+				sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.dispose();
 			}
 		});
@@ -133,11 +143,16 @@ public class QRCode_Window extends JFrame{
 		JButton btnLogIn = new JButton("Upload");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login login = new Login();
-				login.loginFrame.setVisible(true);
-				login.loginFrame.pack();
-				login.loginFrame.setLocationRelativeTo(null);
-				login.loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				String [] arrayStrings = qRcodeGenerator.readQRcode();
+				for(String qr:arrayStrings) {
+					System.out.println(qr);
+				}
+				//Validation
+				//Use sql to validate
+				Success_Window sw = new Success_Window();
+				sw.frame.setVisible(true);
+				sw.frame.setLocationRelativeTo(null);
+				sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.dispose();
 			}
 		});

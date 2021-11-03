@@ -31,30 +31,30 @@ public class OTP_Window extends JFrame{
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					OTP_Window window = new OTP_Window();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					OTP_Window window = new OTP_Window();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
 	 */
-	public OTP_Window() {
-		initialize();
+	public OTP_Window(String phoneNumber) {
+		initialize(phoneNumber);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(String phoneNumber) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 827, 459);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -127,6 +127,7 @@ public class OTP_Window extends JFrame{
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Validation
 				Success_Window sw = new Success_Window();
 				sw.frame.setVisible(true);
 				sw.frame.setLocationRelativeTo(null);

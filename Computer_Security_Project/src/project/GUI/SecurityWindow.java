@@ -1,6 +1,6 @@
 package project.GUI;
 
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -13,13 +13,15 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import project.OTP.OTPGenerator;
+//import project.OTP.OTPGenerator;
+import project.QRCode.QRcodeGenerator;
 
 import java.awt.Panel;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.UUID;
 
 public class SecurityWindow extends JFrame{
 
@@ -28,26 +30,33 @@ public class SecurityWindow extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	public JFrame frame;
+	private String email;
+//	private String phoneNumber;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SecurityWindow window = new SecurityWindow();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					SecurityWindow window = new SecurityWindow();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
 	 */
+	public SecurityWindow(String email) {
+		this.email = email;
+		initialize();
+	}
+	
 	public SecurityWindow() {
 		initialize();
 	}
@@ -125,6 +134,8 @@ public class SecurityWindow extends JFrame{
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String randomToken = UUID.randomUUID().toString();
+				QRcodeGenerator.generateQRcode(email+"%"+randomToken,email);
 				QRCode_Window qr = new QRCode_Window();
 				qr.frame.setVisible(true);
 				qr.frame.setLocationRelativeTo(null);
@@ -136,14 +147,14 @@ public class SecurityWindow extends JFrame{
 		JButton btnLogIn = new JButton("One Time Password (OTP)");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OTPGenerator otpGenerator = new OTPGenerator();
-				otpGenerator.sendOTP();
-				
-				OTP_Window otp = new OTP_Window();
-				otp.frame.setVisible(true);
-				otp.frame.setLocationRelativeTo(null);
-				otp.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.dispose();
+//				OTPGenerator otpGenerator = new OTPGenerator();
+//				otpGenerator.sendOTP(phoneNumber);
+//				
+//				OTP_Window otp = new OTP_Window(phoneNumber);
+//				otp.frame.setVisible(true);
+//				otp.frame.setLocationRelativeTo(null);
+//				otp.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//				frame.dispose();
 			}
 		});
 		btnLogIn.setFont(new Font("Tahoma", Font.PLAIN, 20));
