@@ -1,5 +1,6 @@
 package project.OTP;
 
+import java.time.LocalDate;
 import java.util.Random;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -14,16 +15,17 @@ public class OTPGenerator {
 
 	public void sendOTP(String email) {
 		String phoneNumber = DBConnection.getPhoneNumber(email);
+		LocalDate date = LocalDate.now();
 		String oneTimePassword = generateOTP(); //Call to the generateOTP method.
-		System.out.println("Generated One Time Password: "+ oneTimePassword); //Displays the OTP.
+//		System.out.println("Generated One Time Password: "+ oneTimePassword); //Displays the OTP.
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 	     Message message = Message.creator(
 	    		 new com.twilio.type.PhoneNumber("+1"+phoneNumber),
 	             new com.twilio.type.PhoneNumber("+17408471870"),
 	             "This is your One Time Password:" + oneTimePassword)
 	         .create();
-
-	     System.out.println(message.getSid());
+//	     System.out.println(message.getSid());
+	     DBConnection.addOTP(oneTimePassword, date.toString(), "Unused");
 	}
 
 	public static String generateOTP() {

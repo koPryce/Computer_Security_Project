@@ -3,6 +3,7 @@ package project.QRCode;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,12 +28,15 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
+import project.Database.DBConnection;
+
 public class QRcodeGenerator {
 	static String PATH;	
 	public static void generateQRcode(String credentials,String recipient)  
 	{  
 		MakeDirectory();
 		try {
+			LocalDate date = LocalDate.now();
 			int WIDTH = 200;
 			int HEIGHT = 200;
 			Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();  
@@ -52,7 +56,7 @@ public class QRcodeGenerator {
 		SendEmail.sendMail(recipient);
 		File currentFile = new File(path);
 	    currentFile.delete();
-	    //Write to QR code to database (exceeds 255 characters).
+	    DBConnection.addQRCode(matrix.toString(), date.toString(), "Unused");
 	    //Add the information to relationship table between QR code and users table
 		}
 		catch(WriterException | IOException exception) {
@@ -78,6 +82,10 @@ public class QRcodeGenerator {
 				for(String errorString: arr) {
 					System.out.println(errorString);
 				}
+				if(arr.length == 2) {
+				DBConnection.validateQRCode(arr[1]);
+				DBConnection.updateQRCodeStatus("Used", DBConnection.getQRCodeID());
+				}
 			}
 			return arr;  
 		}
@@ -90,7 +98,12 @@ public class QRcodeGenerator {
 	public String[] readByCamera() {
 
 		WebcamQR qr =  new WebcamQR();
-		return qr.startScan();
+		String [] arr = qr.startScan();
+		if(arr.length == 2) {
+			DBConnection.validateQRCode(arr[1]);
+			DBConnection.updateQRCodeStatus("Used", DBConnection.getQRCodeID());
+			}
+		return arr;
 			
 	}
 	

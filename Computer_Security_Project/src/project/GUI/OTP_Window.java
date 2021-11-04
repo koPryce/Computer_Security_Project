@@ -7,9 +7,13 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import project.Database.DBConnection;
+
 import java.awt.Panel;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -126,13 +130,19 @@ public class OTP_Window extends JFrame{
 		
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				//Validation
-				Success_Window sw = new Success_Window();
-				sw.frame.setVisible(true);
-				sw.frame.setLocationRelativeTo(null);
-				sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.dispose();
+				Boolean validate = DBConnection.validateOTP(passwordField.getText());
+				if(validate) {
+					DBConnection.updateOTPStatus("Used", DBConnection.getOTPID());
+					Success_Window sw = new Success_Window();
+					sw.frame.setVisible(true);
+					sw.frame.setLocationRelativeTo(null);
+					sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame.dispose();
+				}else {
+					JOptionPane.showMessageDialog(btnOk, "Incorrect OTP entered");
+				}
 			}
 		});
 		btnOk.setFont(new Font("Tahoma", Font.PLAIN, 20));

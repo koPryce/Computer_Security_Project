@@ -7,12 +7,16 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Panel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import project.Database.DBConnection;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
@@ -107,13 +111,26 @@ public class Login extends JFrame{
 		
 		JButton LoginButton = new JButton("LOGIN");
 		LoginButton.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				SecurityWindow sw = new SecurityWindow(emailTextField.getText());
-				sw.frame.setVisible(true);
-				sw.frame.setLocationRelativeTo(null);
-				sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				loginFrame.dispose();
+				Boolean emailFlag = false,passwordFlag = false;
+				String authString = DBConnection.authUser(emailTextField.getText());
+				if(authString.equals("User does not exist")) {
+					JOptionPane.showMessageDialog(LoginButton, "User does not exist. Please create an account");
+				}else if(authString.equals(passwordField.getText())) {
+					emailFlag = true;
+					passwordFlag = true;
+				}else {
+					JOptionPane.showMessageDialog(LoginButton, "Invalid Password");
+				}
+				if(emailFlag == true && passwordFlag == true) {
+					SecurityWindow sw = new SecurityWindow(emailTextField.getText());
+					sw.frame.setVisible(true);
+					sw.frame.setLocationRelativeTo(null);
+					sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					loginFrame.dispose();
+				}
 			}
 		});
 		LoginButton.setFont(new Font("Tahoma", Font.PLAIN, 20));

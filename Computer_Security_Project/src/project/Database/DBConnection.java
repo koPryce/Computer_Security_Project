@@ -42,12 +42,38 @@ public class DBConnection {
 		}
 	}
 	
+	public static String authUser(String email) {
+		Connection connection = connect();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			String sql = "SELECT password FROM users WHERE emailAddress = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, email);
+			resultSet = preparedStatement.executeQuery();
+			
+			String password = resultSet.getString("password");
+			return password;
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}finally {
+			try {
+				resultSet.close();
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
+		}
+		return "User does not exist";
+	}
+	
 	public static int getUserID(String email) {
 		Connection connection = connect();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
-			String sql = "SELECT userID FROM users WHERE email = ?";
+			String sql = "SELECT userID FROM users WHERE emailAddress = ?";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, email);
 			resultSet = preparedStatement.executeQuery();
@@ -73,7 +99,7 @@ public class DBConnection {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
-			String sql = "SELECT phoneNumber FROM users WHERE email = ?";
+			String sql = "SELECT phoneNumber FROM users WHERE emailAddress = ?";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, email);
 			resultSet = preparedStatement.executeQuery();
@@ -108,6 +134,33 @@ public class DBConnection {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
+	}
+	
+	public static Boolean validateOTP(String otp) {
+		Connection connection = connect();
+		ResultSet resultSet = null;
+		Statement statement = null;
+		try {
+			String sql = "SELECT otp FROM otp WHERE otpID = (SELECT MAX(otpID) FROM otp)";
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			
+			String sotp = resultSet.getString("otp");
+			if(sotp.equals(otp)) {
+				return true;
+			}			
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}finally {
+			try {
+				resultSet.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
+		}
+		return false;
 	}
 	
 	public static void updateQRCodeStatus(String status, int qrcodeID) {
@@ -210,12 +263,12 @@ public class DBConnection {
 		Connection connection = connect();
 		PreparedStatement preparedStatement = null;
 		try {
-			String sql = "INSERT INTO user_otp(userID, otpID) VALUES(?,?)";
+			String sql = "INSERT INTO users_otp(userID, otpID) VALUES(?,?)";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, userID);
 			preparedStatement.setInt(2, otpID);
 			preparedStatement.execute();
-			System.out.println("Information added to user_otp successfully!");
+			System.out.println("Information added to users_otp successfully!");
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -225,15 +278,42 @@ public class DBConnection {
 		Connection connection = connect();
 		PreparedStatement preparedStatement = null;
 		try {
-			String sql = "INSERT INTO user_otp(userID, qrcodeID) VALUES(?,?)";
+			String sql = "INSERT INTO users_qrcode(userID, qrcodeID) VALUES(?,?)";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, userID);
 			preparedStatement.setInt(2, qrcodeID);
 			preparedStatement.execute();
-			System.out.println("Information added to user_qrcode successfully!");
+			System.out.println("Information added to users_qrcode successfully!");
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
+	}
+	
+	public static Boolean validateQRCode(String qrcode) {
+		Connection connection = connect();
+		ResultSet resultSet = null;
+		Statement statement = null;
+		try {
+			String sql = "SELECT qrcode FROM qrcode WHERE qrcodeID = (SELECT MAX(qrcodeID) FROM qrcode)";
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			
+			String sqrcode = resultSet.getString("qrcode");
+			if(sqrcode.equals(qrcode)) {
+				return true;
+			}			
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}finally {
+			try {
+				resultSet.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
+		}
+		return false;
 	}
 	
 }

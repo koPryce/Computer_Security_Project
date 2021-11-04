@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import project.Database.DBConnection;
 import project.OTP.OTPGenerator;
 //import project.OTP.OTPGenerator;
 import project.QRCode.QRcodeGenerator;
@@ -137,6 +138,7 @@ public class SecurityWindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				String randomToken = UUID.randomUUID().toString();
 				QRcodeGenerator.generateQRcode(email+"%"+randomToken,email);
+				DBConnection.insertUserQRCode(DBConnection.getUserID(email), DBConnection.getQRCodeID());
 				QRCode_Window qr = new QRCode_Window();
 				qr.frame.setVisible(true);
 				qr.frame.setLocationRelativeTo(null);
@@ -150,6 +152,7 @@ public class SecurityWindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				OTPGenerator otpGenerator = new OTPGenerator();
 				otpGenerator.sendOTP(email);
+				DBConnection.insertUserOTP(DBConnection.getUserID(email), DBConnection.getOTPID());
 				
 				OTP_Window otp = new OTP_Window();
 				otp.frame.setVisible(true);
