@@ -15,6 +15,8 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import project.Database.DBConnection;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -33,7 +35,7 @@ public class Registration extends JFrame{
 	private JPasswordField passwordField;
 	private JTextField firstNameTextField;
 	private JTextField emailtextField;
-	private JTextField textField_3;
+	private JTextField lastNameTextField;
 	private JTextField phoneNumbertextField;
 	private JPasswordField passwordField_1;
 
@@ -140,13 +142,15 @@ public class Registration extends JFrame{
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
-				Boolean emailFlag = false, passwordFlag = false;
+				Boolean emailFlag = false, passwordFlag = false, notEmptyFlag = false;
 				String emailString = emailtextField.getText();
-				String [] splitEmail = emailString.split("@");
-				if(!splitEmail[1].equals("gmail.com")) {
-					JOptionPane.showMessageDialog(btnRegister, "The email entered cannot be used. Please use an email ending with 'gmail.com'.");
-				}else {
-					emailFlag = true;
+				if(!emailString.isBlank()) {
+					String [] splitEmail = emailString.split("@");
+					if(!splitEmail[1].equals("gmail.com")) {
+						JOptionPane.showMessageDialog(btnRegister, "The email entered cannot be used. Please use an email ending with 'gmail.com'.");
+					}else {
+						emailFlag = true;
+					}
 				}
 
 				String p1 = passwordField.getText(),p2 = passwordField_1.getText();
@@ -156,11 +160,31 @@ public class Registration extends JFrame{
 				else {
 					passwordFlag = true;
 				}
-				if(emailFlag == true && passwordFlag == true) {
-					SecurityWindow sw = new SecurityWindow(emailtextField.getText());
-					sw.frame.setVisible(true);
-					sw.frame.setLocationRelativeTo(null);
-					sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
+				if(firstNameTextField.getText().isBlank()) {
+					JOptionPane.showMessageDialog(btnRegister, "Please enter your first name.");
+				}else if(lastNameTextField.getText().isBlank()) {
+					JOptionPane.showMessageDialog(btnRegister, "Please enter your last name.");
+				}else if(emailtextField.getText().isBlank()) {
+					JOptionPane.showMessageDialog(btnRegister, "Please enter your email address.");
+				}else if(phoneNumbertextField.getText().isBlank()) {
+					JOptionPane.showMessageDialog(btnRegister, "Please enter your phone number.");
+				}else if(passwordField.getText().isBlank()) {
+					JOptionPane.showMessageDialog(btnRegister, "Please enter your password.");
+				}else if(passwordField_1.getText().isBlank()) {
+					JOptionPane.showMessageDialog(btnRegister, "Please re-enter your password.");
+				}else {
+					notEmptyFlag = true;
+				}
+				
+				if(emailFlag == true && passwordFlag == true && notEmptyFlag == true) {
+					DBConnection.insertUser(firstNameTextField.getText(), lastNameTextField.getText(), emailtextField.getText(), phoneNumbertextField.getText(), passwordField.getText());
+					JOptionPane.showMessageDialog(btnRegister, "Account created successfully.");
+					Login login = new Login();
+					login.loginFrame.setVisible(true);
+					login.loginFrame.pack();
+					login.loginFrame.setLocationRelativeTo(null);
+					login.loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					registrationFrame.dispose();
 				}
 			}
@@ -173,7 +197,7 @@ public class Registration extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				firstNameTextField.setText(null);
 				emailtextField.setText(null);
-				textField_3.setText(null);
+				lastNameTextField.setText(null);
 				phoneNumbertextField.setText(null);
 				passwordField.setText(null);
 				passwordField_1.setText(null);
@@ -208,9 +232,9 @@ public class Registration extends JFrame{
 		lblPhoneNumber.setForeground(new Color(30, 25, 39));
 		lblPhoneNumber.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		textField_3 = new JTextField();
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_3.setColumns(10);
+		lastNameTextField = new JTextField();
+		lastNameTextField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lastNameTextField.setColumns(10);
 		
 		phoneNumbertextField = new JTextField();
 		phoneNumbertextField.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -269,7 +293,7 @@ public class Registration extends JFrame{
 								.addComponent(lblLastName, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(textField_3)
+								.addComponent(lastNameTextField)
 								.addComponent(passwordField_1)
 								.addComponent(phoneNumbertextField, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)))
 						.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
@@ -300,7 +324,7 @@ public class Registration extends JFrame{
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblLastName, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lastNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addGap(43)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblPhoneNumber, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)

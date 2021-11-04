@@ -28,7 +28,7 @@ public class Login extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	public JFrame loginFrame;
-	private JTextField usernameTextField;
+	private JTextField emailTextField;
 	private JPasswordField passwordField;
 
 	/**
@@ -98,9 +98,9 @@ public class Login extends JFrame{
 		passwordLabel.setForeground(new Color(30, 25, 39));
 		passwordLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		usernameTextField = new JTextField();
-		usernameTextField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		usernameTextField.setColumns(10);
+		emailTextField = new JTextField();
+		emailTextField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		emailTextField.setColumns(10);
 		
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -109,12 +109,11 @@ public class Login extends JFrame{
 		LoginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Success_Window sw = new Success_Window();
+				SecurityWindow sw = new SecurityWindow(emailTextField.getText());
 				sw.frame.setVisible(true);
 				sw.frame.setLocationRelativeTo(null);
 				sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				loginFrame.dispose();
-				
 			}
 		});
 		LoginButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -125,7 +124,7 @@ public class Login extends JFrame{
 		CancelButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				usernameTextField.setText(null);
+				emailTextField.setText(null);
 				passwordField.setText(null);
 			}
 		});
@@ -162,7 +161,7 @@ public class Login extends JFrame{
 									.addGap(18)
 									.addComponent(CancelButton))
 								.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(usernameTextField, Alignment.LEADING)
+									.addComponent(emailTextField, Alignment.LEADING)
 									.addComponent(passwordField, Alignment.LEADING, 213, 213, Short.MAX_VALUE)))))
 					.addContainerGap(40, Short.MAX_VALUE))
 		);
@@ -171,7 +170,7 @@ public class Login extends JFrame{
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(60)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(usernameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(emailTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(usernameLabel))
 					.addGap(40)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)

@@ -3,6 +3,8 @@ package project.OTP;
 import java.util.Random;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
+
+import project.Database.DBConnection;
 //import com.twilio.type.PhoneNumber;
 
 public class OTPGenerator {
@@ -10,7 +12,8 @@ public class OTPGenerator {
 	 public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
 	 public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
 
-	public void sendOTP(String phoneNumber) {
+	public void sendOTP(String email) {
+		String phoneNumber = DBConnection.getPhoneNumber(email);
 		String oneTimePassword = generateOTP(); //Call to the generateOTP method.
 		System.out.println("Generated One Time Password: "+ oneTimePassword); //Displays the OTP.
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);

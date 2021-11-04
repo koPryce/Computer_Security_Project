@@ -130,34 +130,18 @@ public class Success_Window extends JFrame{
 			}
 		});
 		btnLogIn.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JButton btnSecurityWindow = new JButton("Security Window");
-		btnSecurityWindow.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Registration rg = new Registration();
-				rg.registrationFrame.setVisible(true);
-				rg.registrationFrame.setLocationRelativeTo(null);
-				rg.registrationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.dispose();
-			}
-		});
-		btnSecurityWindow.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(253)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnSecurityWindow, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLogIn, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE))
+					.addComponent(btnLogIn, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(275, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(138)
-					.addComponent(btnSecurityWindow, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-					.addGap(27)
+					.addGap(257)
 					.addComponent(btnLogIn, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(27, Short.MAX_VALUE))
 		);

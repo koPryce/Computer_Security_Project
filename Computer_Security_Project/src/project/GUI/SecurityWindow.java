@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import project.OTP.OTPGenerator;
 //import project.OTP.OTPGenerator;
 import project.QRCode.QRcodeGenerator;
 
@@ -147,14 +148,14 @@ public class SecurityWindow extends JFrame{
 		JButton btnLogIn = new JButton("One Time Password (OTP)");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				OTPGenerator otpGenerator = new OTPGenerator();
-//				otpGenerator.sendOTP(phoneNumber);
-//				
-//				OTP_Window otp = new OTP_Window(phoneNumber);
-//				otp.frame.setVisible(true);
-//				otp.frame.setLocationRelativeTo(null);
-//				otp.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//				frame.dispose();
+				OTPGenerator otpGenerator = new OTPGenerator();
+				otpGenerator.sendOTP(email);
+				
+				OTP_Window otp = new OTP_Window();
+				otp.frame.setVisible(true);
+				otp.frame.setLocationRelativeTo(null);
+				otp.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.dispose();
 			}
 		});
 		btnLogIn.setFont(new Font("Tahoma", Font.PLAIN, 20));

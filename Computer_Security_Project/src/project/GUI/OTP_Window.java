@@ -31,30 +31,30 @@ public class OTP_Window extends JFrame{
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					OTP_Window window = new OTP_Window();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					OTP_Window window = new OTP_Window();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the application.
 	 */
-	public OTP_Window(String phoneNumber) {
-		initialize(phoneNumber);
+	public OTP_Window() {
+		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String phoneNumber) {
+	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 827, 459);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -138,18 +138,35 @@ public class OTP_Window extends JFrame{
 		btnOk.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		passwordField = new JPasswordField();
+		
+		JLabel backButtonLabel = new JLabel("BACK");
+		backButtonLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Login login = new Login();
+				login.loginFrame.setVisible(true);
+				login.loginFrame.pack();
+				login.loginFrame.setLocationRelativeTo(null);
+				login.loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			}
+		});
+		backButtonLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.TRAILING)
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(33)
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE))
-				.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
 					.addGap(218)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
 						.addComponent(passwordField, 286, 286, 286)
 						.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(310, Short.MAX_VALUE))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(33)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(backButtonLabel, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE)))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -160,7 +177,9 @@ public class OTP_Window extends JFrame{
 					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
 					.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-					.addGap(74))
+					.addGap(36)
+					.addComponent(backButtonLabel)
+					.addGap(25))
 		);
 		panel_1.setLayout(gl_panel_1);
 	}

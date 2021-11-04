@@ -161,19 +161,32 @@ public class QRCode_Window extends JFrame{
 		JLabel lblQrCodeWas = new JLabel("QR Code was sent to your email.");
 		lblQrCodeWas.setForeground(Color.RED);
 		lblQrCodeWas.setFont(new Font("Tahoma", Font.BOLD, 20));
+		
+		JLabel backButtonLabel = new JLabel("BACK");
+		backButtonLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Login login = new Login();
+				login.loginFrame.setVisible(true);
+				login.loginFrame.pack();
+				login.loginFrame.setLocationRelativeTo(null);
+				login.loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			}
+		});
+		backButtonLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGap(253)
+							.addComponent(backButtonLabel, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+							.addGap(198)
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnLogIn, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblQrCodeWas, GroupLayout.PREFERRED_SIZE, 781, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(lblQrCodeWas, GroupLayout.PREFERRED_SIZE, 781, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(23, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
@@ -181,11 +194,17 @@ public class QRCode_Window extends JFrame{
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(22)
 					.addComponent(lblQrCodeWas, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-					.addGap(76)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnLogIn, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(103, Short.MAX_VALUE))
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(76)
+							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(btnLogIn, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(103, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(backButtonLabel, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+							.addGap(91))))
 		);
 		panel_1.setLayout(gl_panel_1);
 	}
