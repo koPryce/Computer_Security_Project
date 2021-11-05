@@ -2,10 +2,8 @@ package project.QRCode;
 
 import java.security.InvalidKeyException;
 import java.security.Key;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import javax.xml.bind.DatatypeConverter;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -29,7 +27,6 @@ public class Security {
 			String encrypted =  Base64.getEncoder().encodeToString(encVal);
 			return encrypted;
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return " ";
@@ -47,7 +44,6 @@ public class Security {
 			 decryptedValue = new String(decVal);
 			return decryptedValue;
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch(BadPaddingException e) {

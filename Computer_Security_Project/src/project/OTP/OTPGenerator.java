@@ -6,7 +6,6 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 
 import project.Database.DBConnection;
-//import com.twilio.type.PhoneNumber;
 
 public class OTPGenerator {
 
@@ -17,15 +16,14 @@ public class OTPGenerator {
 		String phoneNumber = DBConnection.getPhoneNumber(email);
 		LocalDate date = LocalDate.now();
 		String oneTimePassword = generateOTP(); //Call to the generateOTP method.
-//		System.out.println("Generated One Time Password: "+ oneTimePassword); //Displays the OTP.
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-	     Message message = Message.creator(
+		Message message = Message.creator(
 	    		 new com.twilio.type.PhoneNumber("+1"+phoneNumber),
 	             new com.twilio.type.PhoneNumber("+17408471870"),
 	             "This is your One Time Password:" + oneTimePassword)
 	         .create();
-//	     System.out.println(message.getSid());
 	     DBConnection.addOTP(oneTimePassword, date.toString(), "Unused");
+	     message.getSid();
 	}
 
 	public static String generateOTP() {

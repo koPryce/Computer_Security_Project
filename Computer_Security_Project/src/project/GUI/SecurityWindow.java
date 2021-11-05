@@ -1,6 +1,5 @@
 package project.GUI;
 
-//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -33,23 +32,6 @@ public class SecurityWindow extends JFrame{
 	private static final long serialVersionUID = 1L;
 	public JFrame frame;
 	private String email;
-//	private String phoneNumber;
-
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					SecurityWindow window = new SecurityWindow();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the application.

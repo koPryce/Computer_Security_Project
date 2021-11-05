@@ -15,9 +15,7 @@ public class DBConnection {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			connection = DriverManager.getConnection("jdbc:sqlite:electronicAuthenticationSystemDatabase.db");
-//			System.out.println("Connected!");
 		} catch (ClassNotFoundException | SQLException e) {
-//			e.printStackTrace();
 			System.out.println(e+"");
 		}
 		
@@ -36,7 +34,6 @@ public class DBConnection {
 			preparedStatement.setString(4, phoneNumber);
 			preparedStatement.setString(5, password);
 			preparedStatement.execute();
-			System.out.println("User created successfully!");
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -66,6 +63,34 @@ public class DBConnection {
 			}
 		}
 		return "User does not exist";
+	}
+	
+	public static Boolean authEmail(String email) {
+		Connection connection = connect();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			String sql = "SELECT emailAddress FROM users WHERE emailAddress = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, email);
+			resultSet = preparedStatement.executeQuery();
+			
+			String semail = resultSet.getString("emailAddress");
+			if(email.equals(semail)) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}finally {
+			try {
+				resultSet.close();
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
+		}
+		return false;
 	}
 	
 	public static int getUserID(String email) {
@@ -130,7 +155,6 @@ public class DBConnection {
 			preparedStatement.setString(2, date);
 			preparedStatement.setString(3, status);
 			preparedStatement.execute();
-			System.out.println("QRcode entered successfully!");
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -172,7 +196,6 @@ public class DBConnection {
 			preparedStatement.setString(1, status);
 			preparedStatement.setInt(2, qrcodeID);
 			preparedStatement.execute();
-			System.out.println("QRcode status updated successfully!");
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -213,7 +236,6 @@ public class DBConnection {
 			preparedStatement.setString(2, date);
 			preparedStatement.setString(3, status);
 			preparedStatement.execute();
-			System.out.println("OTP entered successfully!");
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -228,7 +250,6 @@ public class DBConnection {
 			preparedStatement.setString(1, status);
 			preparedStatement.setInt(2, otpID);
 			preparedStatement.execute();
-			System.out.println("OTP status updated successfully!");
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -268,7 +289,6 @@ public class DBConnection {
 			preparedStatement.setInt(1, userID);
 			preparedStatement.setInt(2, otpID);
 			preparedStatement.execute();
-			System.out.println("Information added to users_otp successfully!");
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -283,7 +303,6 @@ public class DBConnection {
 			preparedStatement.setInt(1, userID);
 			preparedStatement.setInt(2, qrcodeID);
 			preparedStatement.execute();
-			System.out.println("Information added to users_qrcode successfully!");
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}

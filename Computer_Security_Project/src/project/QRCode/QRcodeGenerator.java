@@ -57,7 +57,6 @@ public class QRcodeGenerator {
 		File currentFile = new File(path);
 	    currentFile.delete();
 	    DBConnection.addQRCode(matrix.toString(), date.toString(), "Unused");
-	    //Add the information to relationship table between QR code and users table
 		}
 		catch(WriterException | IOException exception) {
 			exception.printStackTrace();
@@ -79,9 +78,6 @@ public class QRcodeGenerator {
 				BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(j.getSelectedFile().getAbsolutePath())))));  
 				Result rslt = new MultiFormatReader().decode(binaryBitmap);
 				arr = Security.Decrypt(rslt.getText()).split("%");
-				for(String errorString: arr) {
-					System.out.println(errorString);
-				}
 				if(arr.length == 2) {
 				DBConnection.validateQRCode(arr[1]);
 				DBConnection.updateQRCodeStatus("Used", DBConnection.getQRCodeID());
@@ -109,7 +105,7 @@ public class QRcodeGenerator {
 	
 	private static void MakeDirectory() {
 		PATH = System.getProperty("user.home")+"\\QRcode";
-		System.out.println(System.getProperty("user.home"));
+//		System.out.println(System.getProperty("user.home"));
 		File file = new File(PATH);
 	      //Creating the directory
 	      boolean bool = file.mkdir();

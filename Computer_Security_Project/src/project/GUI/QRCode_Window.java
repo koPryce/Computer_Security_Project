@@ -145,8 +145,6 @@ public class QRCode_Window extends JFrame{
 				for(String qr:arrayStrings) {
 					System.out.println(qr);
 				}
-				//Validation
-				//Use sql to validate
 				Success_Window sw = new Success_Window();
 				sw.frame.setVisible(true);
 				sw.frame.setLocationRelativeTo(null);

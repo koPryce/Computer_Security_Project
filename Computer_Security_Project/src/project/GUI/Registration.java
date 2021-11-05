@@ -142,7 +142,7 @@ public class Registration extends JFrame{
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
-				Boolean emailFlag = false, passwordFlag = false, notEmptyFlag = false;
+				Boolean emailFlag = false, passwordFlag = false, notEmptyFlag = false, duplicateFlag = false;
 				String emailString = emailtextField.getText();
 				if(!emailString.isBlank()) {
 					String [] splitEmail = emailString.split("@");
@@ -151,6 +151,12 @@ public class Registration extends JFrame{
 					}else {
 						emailFlag = true;
 					}
+				}
+				
+				if(DBConnection.authEmail(emailtextField.getText())) {
+					JOptionPane.showMessageDialog(btnRegister, "The email entered is already in use.");
+				}else {
+					duplicateFlag = true;
 				}
 
 				String p1 = passwordField.getText(),p2 = passwordField_1.getText();
@@ -177,7 +183,7 @@ public class Registration extends JFrame{
 					notEmptyFlag = true;
 				}
 				
-				if(emailFlag == true && passwordFlag == true && notEmptyFlag == true) {
+				if(emailFlag == true && passwordFlag == true && notEmptyFlag == true && duplicateFlag == true) {
 					DBConnection.insertUser(firstNameTextField.getText(), lastNameTextField.getText(), emailtextField.getText(), phoneNumbertextField.getText(), passwordField.getText());
 					JOptionPane.showMessageDialog(btnRegister, "Account created successfully.");
 					Login login = new Login();

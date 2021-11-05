@@ -1,10 +1,7 @@
 package project.QRCode;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
-import java.util.UUID;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -43,7 +40,6 @@ public class SendEmail {
 		try {
 			Transport.send(message);
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -61,14 +57,12 @@ public class SendEmail {
 				String PATH = System.getProperty("user.home")+"\\QRcode";
 				part.attachFile(PATH+"\\Quote.png");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			content.addBodyPart(part);
 			message.setContent(content);
 			return message;
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		
 	}
