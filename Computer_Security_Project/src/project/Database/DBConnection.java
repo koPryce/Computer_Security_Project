@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import project.QRCode.Security;
+
 
 public class DBConnection {
 	
@@ -22,6 +24,8 @@ public class DBConnection {
 		return connection;
 	}
 	
+	
+	
 	public static void insertUser(String firstName, String lastName, String emailAddress, String phoneNumber, String password) {
 		Connection connection = connect();
 		PreparedStatement preparedStatement = null;
@@ -32,10 +36,17 @@ public class DBConnection {
 			preparedStatement.setString(2, lastName);
 			preparedStatement.setString(3, emailAddress);
 			preparedStatement.setString(4, phoneNumber);
-			preparedStatement.setString(5, password);
+			preparedStatement.setString(5, Security.hashPassword((password+emailAddress).getBytes()));
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println(e.toString());
+		}finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
 		}
 	}
 	
@@ -157,6 +168,13 @@ public class DBConnection {
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println(e.toString());
+		}finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
 		}
 	}
 	
@@ -198,6 +216,13 @@ public class DBConnection {
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println(e.toString());
+		}finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
 		}
 	}
 	
@@ -238,6 +263,13 @@ public class DBConnection {
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println(e.toString());
+		}finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
 		}
 	}
 	
@@ -252,6 +284,13 @@ public class DBConnection {
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println(e.toString());
+		}finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
 		}
 	}
 	
@@ -291,6 +330,13 @@ public class DBConnection {
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println(e.toString());
+		}finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
 		}
 	}
 	
@@ -305,6 +351,13 @@ public class DBConnection {
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println(e.toString());
+		}finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
 		}
 	}
 	
@@ -318,7 +371,9 @@ public class DBConnection {
 			resultSet = statement.executeQuery(sql);
 			
 			String sqrcode = resultSet.getString("qrcode");
+			connection.close();
 			if(sqrcode.equals(qrcode)) {
+				DBConnection.updateQRCodeStatus("Used", DBConnection.getQRCodeID());
 				return true;
 			}			
 		} catch (SQLException e) {

@@ -1,6 +1,5 @@
 package project.GUI;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -9,6 +8,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -29,25 +29,6 @@ public class QRCode_Window extends JFrame{
 	private static final long serialVersionUID = 1L;
 	public JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					QRCode_Window window = new QRCode_Window();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public QRCode_Window() {
 		initialize();
 	}
@@ -141,15 +122,19 @@ public class QRCode_Window extends JFrame{
 		JButton btnLogIn = new JButton("Upload");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String [] arrayStrings = qRcodeGenerator.readQRcode();
-				for(String qr:arrayStrings) {
-					System.out.println(qr);
+				Boolean valid = qRcodeGenerator.readQRcode();
+				
+				if(valid) {
+					Success_Window sw = new Success_Window();
+					sw.frame.setVisible(true);
+					sw.frame.setLocationRelativeTo(null);
+					sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame.dispose();
 				}
-				Success_Window sw = new Success_Window();
-				sw.frame.setVisible(true);
-				sw.frame.setLocationRelativeTo(null);
-				sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.dispose();
+				else {
+					JOptionPane.showMessageDialog(btnLogIn, "Invalid QR code");
+				}
+				
 			}
 		});
 		btnLogIn.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -203,5 +188,6 @@ public class QRCode_Window extends JFrame{
 							.addGap(91))))
 		);
 		panel_1.setLayout(gl_panel_1);
+		
 	}
 }

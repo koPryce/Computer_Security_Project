@@ -16,6 +16,7 @@ import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import project.Database.DBConnection;
+import project.QRCode.Security;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -111,25 +112,24 @@ public class Login extends JFrame{
 		
 		JButton LoginButton = new JButton("LOGIN");
 		LoginButton.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("deprecation")
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Boolean emailFlag = false,passwordFlag = false;
-				String authString = DBConnection.authUser(emailTextField.getText());
+				String authString = DBConnection.authUser(emailTextField.getText().trim());
 				if(authString.equals("User does not exist")) {
 					JOptionPane.showMessageDialog(LoginButton, "User does not exist. Please create an account");
-				}else if(authString.equals(passwordField.getText())) {
+				}else if(authString.equals(Security.hashPassword((String.valueOf(passwordField.getPassword())+emailTextField.getText().trim()).getBytes()))) {
 					emailFlag = true;
 					passwordFlag = true;
 				}else {
 					JOptionPane.showMessageDialog(LoginButton, "Invalid Password");
 				}
-				if(emailFlag == true && passwordFlag == true) {
+				if(emailFlag && passwordFlag) {
+					loginFrame.dispose();
 					SecurityWindow sw = new SecurityWindow(emailTextField.getText());
 					sw.frame.setVisible(true);
 					sw.frame.setLocationRelativeTo(null);
 					sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					loginFrame.dispose();
 				}
 			}
 		});

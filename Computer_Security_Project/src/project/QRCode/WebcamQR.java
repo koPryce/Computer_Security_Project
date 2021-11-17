@@ -1,6 +1,11 @@
 package project.QRCode;
 
 import java.awt.image.BufferedImage;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.swing.JFrame;
 
@@ -54,7 +59,65 @@ public class WebcamQR extends JFrame  {
 	
 	
 	public String[] startScan() {
-		do {
+		
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+	    Callable<String[]> callable = new Callable<String[]>() {
+	        @Override
+	        public String[] call() {
+	        	do {
+	        		System.out.println("here");
+	    			try {
+	    				Thread.sleep(100);
+	    			} catch (InterruptedException e) {
+	    				e.printStackTrace();
+	    			}
+
+	    			Result result = null;
+	    			BufferedImage image = webcam.getImage();
+
+	    			if (webcam.isOpen()) {
+	    				if (image == null) {
+	    					continue;
+	    				}
+
+	    				LuminanceSource source = new BufferedImageLuminanceSource(image);
+	    				BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+	    				
+	    				try {
+
+
+		    				System.out.println("herew");
+	    					result = new MultiFormatReader().decode(bitmap);
+
+
+		    				System.out.println("herew"+result.getText());
+	    					
+	    				} catch (NotFoundException e) {
+	    					
+	    				}
+	    				
+	    			}
+
+	    			if (result != null) {
+	    				arr =  Security.Decrypt(result.getText()).split("%");
+	    				trun = false;
+	    				webcam.close();
+	    			}
+
+	    		} while (trun);
+	            return arr;
+	        }
+	    };
+	    Future<String[]> future = executor.submit(callable);
+	    // future.get() returns 2 or raises an exception if the thread dies, so safer
+	    executor.shutdown();
+	    try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*do {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -87,8 +150,55 @@ public class WebcamQR extends JFrame  {
 				webcam.close();
 			}
 
-		} while (trun);
+		} while (trun);*/
+		//dispose();
+		return arr;
+	}
+	
+	public String[] returnValue() {
 		dispose();
 		return arr;
+	}
+	
+	
+	class rubCamera extends Thread {
+	    public void run()
+	    {
+	    	do {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				Result result = null;
+				BufferedImage image = null;
+
+				if (webcam.isOpen()) {
+
+					if ((image = webcam.getImage()) == null) {
+						continue;
+					}
+
+					LuminanceSource source = new BufferedImageLuminanceSource(image);
+					BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+					
+					try {
+						result = new MultiFormatReader().decode(bitmap);
+					} catch (NotFoundException e) {
+						
+					}
+					
+				}
+
+				if (result != null) {
+					arr =  Security.Decrypt(result.getText()).split("%");
+					trun = false;
+					webcam.close();
+				}
+
+			} while (trun);
+	    }
+	    
 	}
 }

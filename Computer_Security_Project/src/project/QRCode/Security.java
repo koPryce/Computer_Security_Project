@@ -2,12 +2,14 @@ package project.QRCode;
 
 import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import java.util.Base64;
 import java.util.UUID;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -46,7 +48,7 @@ public class Security {
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException e) {
 			e.printStackTrace();
 		}
-		catch(BadPaddingException e) {
+		catch(BadPaddingException | IllegalArgumentException e) {
 			return decryptedValue = "Invalid QR Code";
 		}
 		
@@ -56,6 +58,21 @@ public class Security {
 	private static Key generateKey() {
 		Key key = new SecretKeySpec(keyValue,ALGO);
 		return key;
+	}
+	
+	static String ALGORITHM = "SHA-1";
+	public static String hashPassword(byte[] inputbytes) {
+		String hashedValue = "";
+		try {
+			MessageDigest messageDigest = MessageDigest.getInstance(ALGORITHM);
+			messageDigest.update(inputbytes);
+			byte[]digestedBytes = messageDigest.digest();
+			hashedValue = DatatypeConverter.printHexBinary(digestedBytes).toLowerCase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return hashedValue;
 	}
 
 }

@@ -119,7 +119,7 @@ public class SecurityWindow extends JFrame{
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String randomToken = UUID.randomUUID().toString();
-				QRcodeGenerator.generateQRcode(email+"%"+randomToken,email);
+				QRcodeGenerator.generateQRcode(randomToken,email);
 				DBConnection.insertUserQRCode(DBConnection.getUserID(email), DBConnection.getQRCodeID());
 				QRCode_Window qr = new QRCode_Window();
 				qr.frame.setVisible(true);

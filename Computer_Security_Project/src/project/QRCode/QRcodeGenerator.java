@@ -47,16 +47,16 @@ public class QRcodeGenerator {
 			//Encoding charset to be used  
 			String charset = "UTF-8";  
 			
-			
+			String encryptValue = Security.Encrypt(credentials);
 		//the BitMatrix class represents the 2D matrix of bits  
 		//MultiFormatWriter is a factory class that finds the appropriate Writer subclass for the BarcodeFormat requested and encodes the barcode with the supplied contents.  
-		BitMatrix matrix = new MultiFormatWriter().encode(new String(Security.Encrypt(credentials).getBytes(charset), charset), BarcodeFormat.QR_CODE, WIDTH,HEIGHT);
+		BitMatrix matrix = new MultiFormatWriter().encode(new String(encryptValue.getBytes(charset), charset), BarcodeFormat.QR_CODE, WIDTH,HEIGHT);
 		
 		MatrixToImageWriter.writeToPath(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path).toPath()); 
 		SendEmail.sendMail(recipient);
 		File currentFile = new File(path);
 	    currentFile.delete();
-	    DBConnection.addQRCode(matrix.toString(), date.toString(), "Unused");
+	    DBConnection.addQRCode(credentials, date.toString(), "Unused");
 		}
 		catch(WriterException | IOException exception) {
 			exception.printStackTrace();
@@ -65,9 +65,9 @@ public class QRcodeGenerator {
 		 
 	}  
 	
-	public String[] readQRcode()  
+	public Boolean readQRcode()  
 	{  
-		String [] arr = {""};
+		Boolean match = false;
 		try {
 			JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 			int r = j.showOpenDialog(null);
@@ -77,18 +77,19 @@ public class QRcodeGenerator {
 			{
 				BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(j.getSelectedFile().getAbsolutePath())))));  
 				Result rslt = new MultiFormatReader().decode(binaryBitmap);
-				arr = Security.Decrypt(rslt.getText()).split("%");
-				if(arr.length == 2) {
-				DBConnection.validateQRCode(arr[1]);
-				DBConnection.updateQRCodeStatus("Used", DBConnection.getQRCodeID());
-				}
+				String decryptValue =  Security.Decrypt(rslt.getText());
+				
+				
+				match = DBConnection.validateQRCode(decryptValue);
+				
+				
 			}
-			return arr;  
+			return match;  
 		}
 		catch(IOException | NotFoundException ex) {
 			ex.printStackTrace();
 		} 
-		return arr;
+		return match;
 
 	} 
 	public String[] readByCamera() {

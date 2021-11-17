@@ -23,6 +23,8 @@ import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ActionEvent;
 
 public class Registration extends JFrame{
@@ -153,13 +155,13 @@ public class Registration extends JFrame{
 					}
 				}
 				
-				if(DBConnection.authEmail(emailtextField.getText())) {
+				if(DBConnection.authEmail(emailString)) {
 					JOptionPane.showMessageDialog(btnRegister, "The email entered is already in use.");
 				}else {
 					duplicateFlag = true;
 				}
 
-				String p1 = passwordField.getText(),p2 = passwordField_1.getText();
+				String p1 = String.valueOf(passwordField.getPassword()),p2 = String.valueOf(passwordField_1.getPassword());
 				if(!p1.equals(p2)) {
 					JOptionPane.showMessageDialog(btnRegister, "Passwords do not match.");
 				}
@@ -179,12 +181,17 @@ public class Registration extends JFrame{
 					JOptionPane.showMessageDialog(btnRegister, "Please enter your password.");
 				}else if(passwordField_1.getText().isBlank()) {
 					JOptionPane.showMessageDialog(btnRegister, "Please re-enter your password.");
-				}else {
+				}else if(!phoneNumbertextField.getText().trim().matches("^\\d{10}$")){
+					JOptionPane.showMessageDialog(btnRegister, "Please re-enter a valid phone number.");
+				}
+				else {
 					notEmptyFlag = true;
 				}
 				
 				if(emailFlag == true && passwordFlag == true && notEmptyFlag == true && duplicateFlag == true) {
-					DBConnection.insertUser(firstNameTextField.getText(), lastNameTextField.getText(), emailtextField.getText(), phoneNumbertextField.getText(), passwordField.getText());
+					DBConnection.insertUser(firstNameTextField.getText(), lastNameTextField.getText(), 
+							emailtextField.getText(), phoneNumbertextField.getText(),
+							String.valueOf(passwordField.getPassword()));
 					JOptionPane.showMessageDialog(btnRegister, "Account created successfully.");
 					Login login = new Login();
 					login.loginFrame.setVisible(true);
@@ -243,6 +250,24 @@ public class Registration extends JFrame{
 		lastNameTextField.setColumns(10);
 		
 		phoneNumbertextField = new JTextField();
+		phoneNumbertextField.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				phoneNumbertextField.setText(" ");
+				
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(phoneNumbertextField.getText().trim().isEmpty()) {
+					phoneNumbertextField.setText("format (876)1234567");
+				}
+				
+				
+			}
+			
+		});
 		phoneNumbertextField.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		phoneNumbertextField.setColumns(10);
 		
