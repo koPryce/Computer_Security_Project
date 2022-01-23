@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
+
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -19,6 +21,8 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
+
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -31,6 +35,11 @@ public class OTP_Window extends JFrame{
 	private static final long serialVersionUID = 1L;
 	public JFrame frame;
 	private JPasswordField passwordField;
+	private Timer timer;
+	int seconds, minutes;
+	String formatSeconds, formatMinutes;
+	DecimalFormat decimalFormat = new DecimalFormat("00");
+	private JLabel counterLabel;
 
 	/**
 	 * Launch the application.
@@ -133,13 +142,18 @@ public class OTP_Window extends JFrame{
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				Boolean validate = DBConnection.validateOTP(passwordField.getText());
+				Boolean status = DBConnection.getOTPStatus(DBConnection.getOTPID());
 				if(validate) {
-					DBConnection.updateOTPStatus("Used", DBConnection.getOTPID());
-					Success_Window sw = new Success_Window();
-					sw.frame.setVisible(true);
-					sw.frame.setLocationRelativeTo(null);
-					sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					frame.dispose();
+					if(!status) {
+						DBConnection.updateOTPStatus("Used", DBConnection.getOTPID());
+						Success_Window sw = new Success_Window();
+						sw.frame.setVisible(true);
+						sw.frame.setLocationRelativeTo(null);
+						sw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						frame.dispose();
+					}else {
+						JOptionPane.showMessageDialog(btnOk, "OTP expired!");
+					}
 				}else {
 					JOptionPane.showMessageDialog(btnOk, "Incorrect OTP entered");
 				}
@@ -158,9 +172,21 @@ public class OTP_Window extends JFrame{
 				login.loginFrame.pack();
 				login.loginFrame.setLocationRelativeTo(null);
 				login.loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.dispose();
 			}
 		});
 		backButtonLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		counterLabel = new JLabel();
+		counterLabel.setForeground(Color.RED);
+		counterLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+		
+		counterLabel.setText("00:10");
+		seconds = 10;
+		minutes = 0;
+		displayTimer();
+		timer.start();
+		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -169,7 +195,9 @@ public class OTP_Window extends JFrame{
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
 						.addComponent(passwordField, 286, 286, 286)
 						.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(310, Short.MAX_VALUE))
+					.addGap(78)
+					.addComponent(counterLabel, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(104, Short.MAX_VALUE))
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(33)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -184,13 +212,47 @@ public class OTP_Window extends JFrame{
 					.addContainerGap()
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
 					.addGap(50)
-					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+						.addComponent(counterLabel))
+					.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
 					.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
 					.addGap(36)
 					.addComponent(backButtonLabel)
 					.addGap(25))
 		);
 		panel_1.setLayout(gl_panel_1);
+	}
+
+	private void displayTimer() {
+		timer = new Timer(1000, new ActionListener() {
+			
+			public void actionPerformed(ActionEvent ae) {
+				seconds --;
+				formatSeconds = decimalFormat.format(seconds);
+				formatMinutes = decimalFormat.format(minutes);
+				counterLabel.setText(formatMinutes + ":" + formatSeconds);
+				
+				if(seconds == -1) {
+					seconds = 59;
+					minutes --;
+					formatSeconds = decimalFormat.format(seconds);
+					formatMinutes = decimalFormat.format(minutes);
+					counterLabel.setText(formatMinutes + ":" + formatSeconds);
+				}
+				
+				if(minutes == 0 && seconds == 0) {
+					timer.stop();
+					DBConnection.updateOTPStatus("Used", DBConnection.getOTPID());
+					Login login = new Login();
+					login.loginFrame.setVisible(true);
+					login.loginFrame.pack();
+					login.loginFrame.setLocationRelativeTo(null);
+					login.loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame.dispose();
+				}
+			}
+		});
+		
 	}
 }

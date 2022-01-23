@@ -390,4 +390,32 @@ public class DBConnection {
 		return false;
 	}
 	
+	public static Boolean getOTPStatus(int otpID) {
+		Connection connection = connect();
+		ResultSet resultSet = null;
+		Statement statement = null;
+		try {
+			String sql = "SELECT status FROM otp WHERE otpID = (SELECT MAX(status) FROM otp)";
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			
+			String status = resultSet.getString("status");
+			connection.close();
+			if(status.equalsIgnoreCase("Used")) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}finally {
+			try {
+				resultSet.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e2) {
+				System.out.println(e2.toString());
+			}
+		}
+		return false;
+	}
+	
 }
